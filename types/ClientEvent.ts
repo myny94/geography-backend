@@ -11,6 +11,10 @@ export const ClientEventSchema = z.discriminatedUnion('type', [
     type: z.literal('start'),
     nickname: z.string(),
   }),
+  z.object({
+    type: z.literal('ask_hint'),
+    questionId: z.string(),
+  }),
 ])
 
 export type ClientEvent = z.infer<typeof ClientEventSchema>

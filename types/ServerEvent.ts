@@ -10,6 +10,11 @@ export const ServerEventSchema = z.discriminatedUnion('type', [
     questionId: z.string(),
     geoImageUrl: z.string().url(),
   }),
+  z.object({
+    type: z.literal('give_hint'),
+    questionId: z.string(),
+    hint: z.string(),
+  })
 ])
 
 export type ServerEvent = z.infer<typeof ServerEventSchema>

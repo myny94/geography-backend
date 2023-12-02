@@ -113,6 +113,15 @@ app.post('/event', (req: Request, res: Response) => {
         })
       )
       break
+    case 'ask_hint':
+      res.json(
+        validateServerEvent({
+          type: 'give_hint',
+          questionId: event.questionId,
+          hint: 'blah blah',
+        })
+      )
+      break
   }
 })
 

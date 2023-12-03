@@ -7,6 +7,7 @@ import {
   bBoxAspectRatio,
   calculateSize,
   countryName,
+  getHint,
 } from './utils/geo-functions'
 import cors from 'cors'
 import { ServerEvent, ClientEventSchema } from './types'
@@ -114,11 +115,12 @@ app.post('/event', (req: Request, res: Response) => {
       )
       break
     case 'ask_hint':
+      const hint = getHint({ countryId: event.questionId })
       res.json(
         validateServerEvent({
           type: 'give_hint',
           questionId: event.questionId,
-          hint: 'blah blah',
+          hint: hint,
         })
       )
       break

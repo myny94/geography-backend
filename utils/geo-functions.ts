@@ -33,6 +33,12 @@ const calculateAspectRatio = (
   return formatAspectRatio(width, height, divisor)
 }
 
+const getCountryGeoJson = (countryId: string) => {
+  const filePath = getFilePath(countryId)
+  const geoJSONFile = JSON.parse(fs.readFileSync(filePath, 'utf-8'))
+  return GeoJSONSchema.parse(geoJSONFile)
+}
+
 export const extractCountryNames = (
   properties: GeoJSONData['properties']
 ): string[] => {
@@ -44,9 +50,12 @@ export const extractCountryNames = (
 }
 
 export const countryName = (countryId: string): string[] => {
-  const filePath = getFilePath(countryId)
-  const geoJSONFile = JSON.parse(fs.readFileSync(filePath, 'utf-8'))
-  const parsedGeoJsonResult = GeoJSONSchema.parse(geoJSONFile)
+  const parsedGeoJsonResult = getCountryGeoJson(countryId)
   const countryNames = extractCountryNames(parsedGeoJsonResult.properties)
   return countryNames
+}
+
+export const getHint = ({ countryId }: { countryId: string }) => {
+  const parsedGeoJsonResult = getCountryGeoJson(countryId)
+  return parsedGeoJsonResult.properties['ne:region_un']
 }

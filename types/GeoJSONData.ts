@@ -3,7 +3,9 @@ import { z } from 'zod'
 export const GeoJSONSchema = z.object({
   type: z.literal('Feature'),
   properties: z.object({
-    'ne:region_un': z.string(),
+    'wof:population': z.number().optional(),
+    'ne:continent': z.string().optional(),
+    'geom:area_square_m': z.number().optional(),
     'name:eng_x_preferred': z.array(z.string()),
     'name:eng_x_variant': z.array(z.string()).nullable(),
   }),

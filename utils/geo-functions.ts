@@ -1,4 +1,5 @@
 import { GeoJSONData, GeoJSONSchema } from '../types'
+import { HintProperty } from '../types/HintProperty'
 import { getFilePath } from './helper'
 import * as fs from 'fs'
 
@@ -55,7 +56,23 @@ export const countryName = (countryId: string): string[] => {
   return countryNames
 }
 
-export const getHint = ({ countryId }: { countryId: string }) => {
+export const getHint = ({
+  countryId,
+  hintProperty,
+}: {
+  countryId: string
+  hintProperty: HintProperty
+}) => {
   const parsedGeoJsonResult = getCountryGeoJson(countryId)
-  return parsedGeoJsonResult.properties['ne:region_un']
+  const hint = parsedGeoJsonResult.properties[hintProperty]
+  console.log("hint", hint, hintProperty)
+  if (hintProperty === HintProperty.continent) {
+    return `This country is in ${hint} continent`
+  } else if (hintProperty === HintProperty.population) {
+    return `This country has ${hint} population`
+  } else if (hintProperty === HintProperty.area) {
+    return `This country has ${hint} square meters area`
+  }
+
+  return "Hint available for this country"
 }
